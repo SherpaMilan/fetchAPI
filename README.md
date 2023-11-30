@@ -1,70 +1,125 @@
-# Getting Started with Create React App
+# Instructions
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Task
 
-## Available Scripts
+You've learned how to fetch data in React.
 
-In the project directory, you can run:
+In this code lab, you'll practice fetching some data from the _randomuser.me_ website's API.
 
-### `npm start`
+This code lab's app, once completed, is supposed to show a single customer's data for the Little Lemon Restaurant.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The starter code shows only an `h1` heading, with the following text: "Data pending..."
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Your task is to complete the data fetching using the `fetch()` function and to handle the returned Promise object using the `then()` methods.
 
-### `npm test`
+In the return statement of the App component, you also need to add an h2 heading showing the customer's name and the customer's image from the data fetched from the random user API.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Here's an example screenshot of the completed app served in the browser.
 
-### `npm run build`
+![Completed M2L2-06 code lab's app](instruction-pics/m2l2-06-completed.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In other words, the completed app should display the following:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. An h1 heading with the text that reads "Customer data"
+2. An h2 heading with the text that reads, for example: "Name: Liam"
+3. An image tag showing an image returned from the fetched data
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Steps
 
-### `npm run eject`
+### **Step 1**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Open the `App.js` file.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The `App.js` starting code is as follows:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```js
+import React from "react";
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+function App() {
+  const [user, setUser] = React.useState([]);
 
-## Learn More
+  const fetchData = () => {};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  React.useEffect(() => {
+    fetchData();
+  }, []);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  return Object.keys(user).length > 0 ? (
+    <div>
+      <h1>Customer data</h1>
+    </div>
+  ) : (
+    <h1>Data pending...</h1>
+  );
+}
 
-### Code Splitting
+export default App;
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Locate the `fetchData()` function.
 
-### Analyzing the Bundle Size
+```js
+const fetchData = () => {};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Inside the `fetchData()` function's code block, execute the `fetch()` function, passing it a single string argument: `"https://randomuser.me/api/?results=1"`.
 
-### Making a Progressive Web App
+### **Step 2**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Still inside the `fetchData()` function, under the `fetch()` function call, add the following piece of code:
 
-### Advanced Configuration
+```js
+.then((response) => response.json())
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### **Step 3**
 
-### Deployment
+Continuing from the previous step, add another `then()` call, which takes an arrow function.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The passed-in arrow function should receive a `data` argument and using that `data` argument, it should invoke the `setUser()` function, with the `data` passed to it.
 
-### `npm run build` fails to minify
+### **Step 4**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In the return statement of the App component, the starting code is as follows:
+
+```js
+return Object.keys(user).length > 0 ? (
+  <div style={{ padding: "40px" }}>
+    <h1>Customer data</h1>
+  </div>
+) : (
+  <h1>Data pending...</h1>
+);
+```
+
+Under the `h1` heading, you need to add one line of code:
+
+- an `h2` heading, with the following code inside: `Name: {user.results[0].name.first}`
+
+### **Step 5**
+
+In Step 4, you updated the `return` statement of the App component.
+
+In this step, you need to add another line of code under the newly-added `h2`.
+
+You need to add an `img` element, with the `src` attribute holding the following code:
+
+- `{user.results[0].picture.large}`
+
+Additionally, you need to add an `alt` attribute, as follows:
+
+```js
+alt = "";
+```
+
+Remember to self-close the `img` tag.
+
+### Conclusion
+
+Save the changes and serve the app.
+
+Verify that the completed app, once saved and served, behaves as follows:
+
+1. It shows a heading that reads: "Customer data"
+2. It shows a subheading, that shows a user name. For example, "Name: Ann"
+3. It shows an image of that user under the name
